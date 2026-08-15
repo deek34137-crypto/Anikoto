@@ -14,6 +14,14 @@ app.get('/ping', (req, res) => {
   res.status(200).send('pong');
 });
 
+// Render production health check
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    service: 'aniwavex-backend'
+  });
+});
+
 // Stream fetching route
 app.get('/stream', async (req, res) => {
   const id = req.query.id as string;
@@ -63,6 +71,10 @@ app.get('/stream', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Anikoto streaming backend is running on port ${PORT}`);
+// Start the server with Render-compatible 0.0.0.0 binding
+app.listen(Number(PORT), '0.0.0.0', () => {
+  console.log('AniWaveX Backend started');
+  console.log('Environment: production');
+  console.log(`Port: ${PORT}`);
+  console.log('Health: /health');
 });
